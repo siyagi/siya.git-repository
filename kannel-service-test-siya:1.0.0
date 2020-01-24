@@ -1,0 +1,9 @@
+
+# Do overall update and install missing packages needed for Kannel
+RUN yum -y update && yum -y install kannel
+
+#Set kannel config file
+RUN cat &CONFIG > /etc/kannel/kannel.conf
+
+# Restart application to ensure a clean start
+CMD /etc/init.d/kannel start && /usr/sbin/bearerbox -v 4 -- /etc/kannel/kannel.conf && /usr/sbin/smsbox -v 4 -- /etc/kannel/kannel.conf
