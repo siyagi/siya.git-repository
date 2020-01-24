@@ -1,0 +1,58 @@
+#g-levels:
+#0 is for 'debug', 1 'info', 2 'warning, 3 'error' and 4 'panic'
+group = core
+admin-port = 13000
+smsbox-port = 13001
+admin-password = kanneluser141$?
+log-file = "/var/log/kannel/pm_bearebox.log"
+log-level = 0
+#box-deny-ip = "*.*.*.*"
+#box-allow-ip = "127.0.0.1;"
+smsbox-max-pending = 50000
+
+#Cellc
+group = smsc
+smsc = smpp
+smsc-id = 4
+allowed-smsc-id = "4"
+preferred-smsc-id = "4"
+host = 41.156.64.189
+port = 1060
+#smsc-username = Service_918
+smsc-username = tecpic
+smsc-password = tec918
+system-type = smpp
+#interface-version = 52
+interface-version = 34
+#bind = transceiver
+transceiver-mode = 1
+reconnect-delay = 20
+source-addr-ton = 1
+source-addr-npi = 1
+enquire-link-interval = 20
+log-level = 0
+log-file = "/var/log/kannel/pm_smsc.log"
+
+
+#incoming sms
+group = sms-service
+accepted-smsc = 4
+keyword = default
+catch-all = yes
+concatenation = true
+max-messages = 0
+accept-x-kannel-headers = true
+get-url = "http://localhost:3000/sms?ORIGINATOR=%p&RECEIVER=%P&SMS=%a&TIME=%t&ID=%F&OPERATOR=%f"
+
+group = smsbox-route
+smsbox-id = TechPitchSMSBox
+smsc-id = 4
+
+group = sendsms-user
+username = TechPitchSMSBox
+password = W1VIW4INRU
+#user-deny-ip = "*.*.*.*"
+#user-allow-ip = 127.0.0.1
+user-allow-ip = "*.*.*.*"
+forced-smsc = 4
+
